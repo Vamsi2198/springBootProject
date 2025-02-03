@@ -97,9 +97,7 @@
 						<publishRegistry>
 							<username>${env.DOCKERHUB_USER}</username>
 							<password>${env.DOCKERHUB_PWD}</password>
-						</publishRegistry>
-
-						
+						</publishRegistry>	
 					</docker>
 				</configuration>
 			</plugin>
