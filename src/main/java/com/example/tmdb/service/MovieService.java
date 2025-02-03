@@ -1,5 +1,7 @@
 package com.example.tmdb.service;
 
+import com.example.tmdb.exception.InvalidDataException;
+import com.example.tmdb.exception.NotFoundException;
 import com.example.tmdb.model.Movie;
 import com.example.tmdb.repo.MovieRepository;
 import jakarta.transaction.Transactional;
@@ -16,19 +18,19 @@ public class MovieService {
     public Movie create(Movie movie){
 
         if(movie == null){
-            throw new RuntimeException("Invalid Movie");
+            throw new InvalidDataException("Invalid Movie: null");
         }
         return movieRepository.save(movie);
     }
 
     public Movie read(long id){
       return  movieRepository.findById(id)
-                .orElseThrow(()-> new RuntimeException("movie not found"));
+                .orElseThrow(()-> new NotFoundException("movie not found with id: "));
     }
 
     public void update(Long id,Movie update){
         if(update == null || id == null){
-            throw new RuntimeException("Invalid Movie");
+            throw new InvalidDataException("Invalid Movie : null");
         }
        if(movieRepository.existsById(id)){
           Movie movie= movieRepository.getReferenceById(id);
@@ -37,7 +39,7 @@ public class MovieService {
           movie.setActors((update.getActors()));
           movieRepository.save(movie);
        }else{
-           throw new RuntimeException("movie not found");
+           throw new NotFoundException("movie not found with id: ");
        }
     }
 
@@ -45,7 +47,7 @@ public class MovieService {
         if(movieRepository.existsById(id)){
             movieRepository.deleteById(id);
         }else{
-            throw new RuntimeException("movie not found");
+            throw new NotFoundException("movie not found with id: ");
         }
     }
 }
